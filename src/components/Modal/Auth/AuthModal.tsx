@@ -22,7 +22,6 @@ const AuthModal: React.FC = () => {
   const [user, loading, error] = useAuthState(auth);
   useEffect(() => {
     if (user) handleClose();
-    console.log("user".toUpperCase(), user);
   }, [user]);
 
   const handleClose = () => {
