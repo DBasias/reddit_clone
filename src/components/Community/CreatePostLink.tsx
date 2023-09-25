@@ -1,5 +1,6 @@
 import { authModalAtom } from "@/src/atoms/authModalAtom";
 import { auth } from "@/src/firebase/clientApp";
+import useDirectory from "@/src/hooks/useDirectory";
 import { Flex, Icon, Input } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
@@ -13,15 +14,20 @@ const CreatePostLink: React.FC = () => {
   const router = useRouter();
   const [user] = useAuthState(auth);
   const setAuthModalState = useSetRecoilState(authModalAtom);
+  const { toggleMenuOpen } = useDirectory();
 
-  const handleOnClick = () => {
+  const onClick = () => {
     if (!user) {
       setAuthModalState({ open: true, view: "login" });
       return;
     }
 
     const { communityId } = router.query;
-    router.push(`/r/${communityId}/submit`);
+    if (communityId) {
+      router.push(`/r/${communityId}/submit`);
+      return;
+    }
+    toggleMenuOpen();
   };
 
   return (
@@ -53,7 +59,7 @@ const CreatePostLink: React.FC = () => {
         height="36px"
         borderRadius={4}
         mr={4}
-        onClick={handleOnClick}
+        onClick={onClick}
       />
       <Icon
         as={IoImageOutline}

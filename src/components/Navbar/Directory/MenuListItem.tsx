@@ -1,3 +1,4 @@
+import useDirectory from "@/src/hooks/useDirectory";
 import { Flex, Image, MenuItem, Icon } from "@chakra-ui/react";
 import React from "react";
 import { IconType } from "react-icons";
@@ -17,12 +18,16 @@ const MenuListItem: React.FC<MenuListItemProps> = ({
   iconColor,
   imageURL,
 }) => {
+  const { onSelectMenuItem } = useDirectory();
+
   return (
     <MenuItem
       width="100%"
       fontSize="10pt"
       _hover={{ bg: "gray.100" }}
-      onClick={() => {}}
+      onClick={() =>
+        onSelectMenuItem({ displayText, icon, iconColor, link, imageURL })
+      }
     >
       <Flex align="center">
         {imageURL ? (
